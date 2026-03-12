@@ -14,10 +14,10 @@
     fetch('lucy-shop-catalog.jsx')
       .then(r => r.text())
       .then(code => {
-        code = code.replace(/import\s*\{([^}]+)\}\s*from\s*["']react["']\s*;?/, 'const {$1} = React;');
-        code = code.replace(/export\s+default\s+/, '');
+        code = code.replace(/import\s*\{([^}]+)\}\s*from\s*["']react["']\s*;?/g, 'const {$1} = React;');
+        code = code.replace(/export\s+default\s+/g, '');
         code += '\nReactDOM.createRoot(document.getElementById("root")).render(React.createElement(LucyShop));';
-        const output = Babel.transform(code, { presets: ['react'] }).code;
+        const output = Babel.transform(code, { presets: [['react'], ['env', { modules: false }]] }).code;
         const s = document.createElement('script');
         s.textContent = output;
         document.body.appendChild(s);
